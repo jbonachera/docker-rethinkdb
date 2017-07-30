@@ -1,7 +1,8 @@
 #!/bin/bash
 
+args="--no-update-check --bind all"
 if [[ -z "${SERVICE_NAME}" ]]; then
-  exec rethinkdb --bind all $@
+  exec rethinkdb $args $@
 else
   MIN_NODES_SIZE="${MIN_NODES_SIZE:-3}"
   echo "swarm mode enabled: peers are behind $(dig +short $SERVICE_NAME) ip"
@@ -16,7 +17,7 @@ else
       NODE_LIST="$NODE_LIST --join $node"
     done
   done
-  cmd="rethinkdb --bind all $NODE_LIST"
+  cmd="rethinkdb $args $NODE_LIST"
   echo "running $cmd"
   exec $cmd
 fi
