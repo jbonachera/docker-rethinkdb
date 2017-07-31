@@ -1,6 +1,6 @@
 #!/bin/bash
-
-args="--no-update-check --bind all"
+NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1)
+args="--no-update-check --bind all -c $NPROC"
 if [[ -z "${SERVICE_NAME}" ]]; then
   exec rethinkdb $args $@
 else
